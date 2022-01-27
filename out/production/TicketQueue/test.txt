@@ -1,0 +1,47 @@
+Classes:
+
+Button
+    Methods:
+    Variables
+        type        enum
+        name        String
+        id          int
+
+Screen
+    Methods:
+    Variables
+        type        enum
+        name        String
+        id          int
+
+Controller
+    Methods:
+
+    Variables:
+        server:
+            rx (receive)
+            tx (transmit)
+        client
+            rx (receive)
+            tx (transmit)
+
+IO (In out)
+    Methods:
+        rx
+        tx
+    Variables:
+
+Printer
+    Methods:
+
+    Variables:
+        type        enum
+        name        String
+
+
+Methods:
+- getTicket()
+- showScreenMenu()
+-
+
+
