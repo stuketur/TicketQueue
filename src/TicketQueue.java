@@ -96,6 +96,6 @@ class TicketQueue {
         if (choice.matches(choice)) {
             return 0;
         }
-        return Integer.parseInt(scanner.nextLine());
+        return Integer.parseInt(choice);
     }
 }
