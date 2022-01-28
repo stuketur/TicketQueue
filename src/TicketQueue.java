@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+// https://www.figma.com/file/7EKS5bJLjZAZQ44VPt7C8a/Super-duper-wireframe
+
 /*
  * Access modifiers
  * The only access modifier needed is public on our main method
@@ -47,13 +49,13 @@ class TicketQueue {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        IO io = new IO("test");
-        //boolean test = io.checkCRC("$nncmdxxxx,yyyy,zzz*16", 16);
-        IO.Message msg = io.decode("$nncmdxxxx,yyyy,zzz*16");
-
-        TicketSystem ticketSystem = new TicketSystem();
         //Debug.on();
         Debug.readConfig();
+
+        testCode();
+
+        TicketSystem ticketSystem = new TicketSystem();
+
         int choice = 0;
 
         while (choice != 4) {
@@ -79,6 +81,29 @@ class TicketQueue {
             }
         }
     }
+    private static void testCode() {
+        IO io = new IO();
+        String message = "$nncmdxxxx,yyyy,zzz*16\r\n";
+        IO.Message msg = io.decode(message);
+        boolean checkCRC = io.checkCRC(message);
+
+        /*
+        // Simulate Next Customer button click from register
+        message = io.message(IO.Sender.BTN0, IO.Commands.NEXTICKET);
+        io.tx(message); */
+
+        // Simulate New Ticket button click from customer
+        message = io.message(IO.Sender.BTNNEW, IO.Commands.NEWTICKET);
+        io.rx(message); // Simulate message from New Ticket Button
+
+        // Simulate Next Customer button click from register
+        message = io.message(IO.Sender.BTN1, IO.Commands.NEXTICKET);
+        io.tx(message);
+
+        Controller controller = new Controller();
+
+        boolean foo = true;
+    }
 
     static void printMeny() {
         String meny = "** MENY FOR BILLETTSYSTEM **\n";
@@ -93,9 +118,10 @@ class TicketQueue {
     static int getChoice() {
         String choice = scanner.nextLine();
         choice = choice.replaceAll("[^\\d]", "");
-        if (choice.matches(choice)) {
+        if (choice.matches("")) {
             return 0;
         }
-        return Integer.parseInt(choice);
+        final int i = Integer.parseInt(choice);
+        return i < 5 ? i : 0;
     }
 }

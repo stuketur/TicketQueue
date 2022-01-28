@@ -5,7 +5,11 @@ import java.util.Properties;
 
 public class Debug {
     private void Debug() {}
+    // Empty privat constructor to prevent instances from being created (singleton)
+    static String NL = System.getProperty("line.separator");
     private static boolean debugAtive = false;
+
+
     static void on() {
         debugAtive = true;
     }
