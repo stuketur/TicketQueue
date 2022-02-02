@@ -13,7 +13,6 @@ public class IO {
         static final String BTN3 = "03";
         static final String BTNNEW = "04";
         static final String APP = "05";
-
     }
     static final class Receiver {
         static final String REG0 = "00";
@@ -27,7 +26,6 @@ public class IO {
         static final String SCRMAIN = "08";
         static final String PRINT = "09";
     }
-
     String name;
     private TicketSystem ticketSystem = new TicketSystem();
 
@@ -46,11 +44,9 @@ public class IO {
         String[] values;
         Integer crc;
     }
-
     protected TicketSystem getTicketSystem() {
         return ticketSystem;
     }
-
     protected boolean tx(String message) {
         Debug.console("IO.tx() sending message: " + message);
         return true;
@@ -64,24 +60,22 @@ public class IO {
         Message msg =  decode(message);
         Integer ticketNumber;
         switch (msg.cmd) {
-            //Commands.NEWTICKET
+            //case Commands.NEWTICKET:
+            case "MNM":
+                tx(message(Sender.APP, Commands.MSGMAIN, msg.data));
+                break;
             case "NEW":
                 // Generate new ticket, send message to controller about updating screen
                 ticketNumber = ticketSystem.createTicket();
                 tx(message(Sender.APP, Commands.PRINT, ticketNumber.toString()));
                 break;
-            //Commands.NEXTICKET
+            //case Commands.NEXTICKET:
             case "NXT":
                 ticketNumber = ticketSystem.serveCustomer();
-                final int senderNumber = Integer.parseInt(msg.nn) + 5; // 4 + 5 = 9
-                //final int registerNumber =
-                final String registerScreen = "0" + String.valueOf(senderNumber); // "09"
-                switch (senderNumber) {
-                    case 9:
-                }
-                tx(message(Sender.APP, Commands.MSGNEXT, ticketNumber.toString() + "," + registerScreen));
+                tx(message(Sender.APP, Commands.MSGNEXT, ticketNumber.toString()+ "," + msg.nn));
+
                 break;
-            default: Debug.console("IO.rx: Invalid message " + msg.cmd);
+            default: Debug.console("IO.rx, Invalid message command: " + msg.cmd);
                 break;
         }
     }
@@ -118,7 +112,7 @@ public class IO {
             ret.cmd = message.substring(3, 6);
             int asteriskNdx = message.indexOf('*');
             ret.data = message.substring(6, asteriskNdx);
-            ret.crc = asteriskNdx > -1 ? Integer.parseInt(message.substring(asteriskNdx + 1, message.length() - 2)) : null;
+            ret.crc = asteriskNdx > -1 ? Integer.parseInt(message.substring(asteriskNdx+1, message.length()-2)) : null;
             ret.values = ret.data.split(",");
         }
         return ret;

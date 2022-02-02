@@ -19,20 +19,24 @@ class TicketSystem {
         return teller;
     }
 
+    Ticket getNextInQueue() {
+        return tickets.isEmpty() ? null : tickets.get(0);
+    }
     /**
      * Henter og skriver ut informasjon om første kølapp og fjerner den
      * Gir feilmelding dersom kø er tom
+     * @return
      */
     int serveCustomer(){
         Ticket betjenes = null;
         int ticketNumber = 0;
-        if(tickets.isEmpty()){
+        if (tickets.isEmpty()){
             Debug.console("ingen i kø");
         } else {
             betjenes = tickets.remove(0);
             ticketNumber = betjenes.number;
             Debug.console("Kunde med billettnr: ");
-            Debug.console(betjenes.getNumber() + " betjenes.\n");
+            Debug.console(betjenes.getNumber() + " betjentes\n");
         }
         return ticketNumber;
     }

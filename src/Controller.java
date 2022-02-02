@@ -13,17 +13,10 @@ public class Controller {
 
     Screen screenMain = new Screen("Hovedskjerme", Screen.Type.main, IO.Receiver.SCRMAIN);
 
-    /*
-    Register register0 = new Register();
-    Register register1 = new Register();
-    Register register2 = new Register();
-    Register register3 = new Register();
-     */
-
     protected Register[] register = new Register[4];
 
     Controller() {
-        for (int i = 0; i < 4; i++) {
+        for (int i=0; i<4; i++) {
             register[i] = new Register();
         }
     }

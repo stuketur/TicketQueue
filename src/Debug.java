@@ -9,7 +9,6 @@ public class Debug {
     static String NL = System.getProperty("line.separator");
     private static boolean debugAtive = false;
 
-
     static void on() {
         debugAtive = true;
     }
